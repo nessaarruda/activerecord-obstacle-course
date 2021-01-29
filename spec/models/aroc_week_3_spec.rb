@@ -27,7 +27,8 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    users = User.joins(:order_items).where(order_items: {item_id: @item_8.id}).distinct.pluck(:name)
+    # users = User.joins(:order_items).where("order_items.item_id = ?", @item_8.id).order(:name).distinct.pluck(:name)
     # ------------------------------------------------------------
 
     # Expectation
@@ -40,9 +41,9 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
     # ----------------------- Using Ruby -------------------------
     names = Order.last.items.all.map(&:name)
     # ------------------------------------------------------------
-
+    names = Item.joins(:order_items).where(order_items: {order_id: Order.last}).pluck(:name)
+    # names = Item.joins(:order_items).where("order_items.order_id = ?", Order.last).pluck(:name)
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
     # ------------------------------------------------------------
 
     # Expectation
@@ -66,7 +67,14 @@ describe 'ActiveRecord Obstacle Course, Week 3' do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    #all order for user 3 - Order.where(user_id: @user_3)
+    #get order 3 - Order.where(user_id: @user_3).third
+    #get order 3 items
+    #final return is a list of items names
+    # items_for_user_3_third_order = Item.joins(order_items: :order).where(order: {user_id: @user_3.id})
+    items_for_user_3_third_order = Order.where(user_id: @user_3.id).third.items.pluck(:name)
+    # items_for_user_3_third_order = Order.where(user_id: @user_3.id)[2].items.pluck(:name)
+
     # ------------------------------------------------------------
 
     # Expectation
